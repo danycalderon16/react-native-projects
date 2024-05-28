@@ -11,6 +11,7 @@ import React, {useState} from 'react';
 
 import * as Yup from 'yup';
 import {Formik} from 'formik';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 export default function App() {
   const PasswordSchema = Yup.object().shape({
@@ -79,32 +80,92 @@ export default function App() {
               <>
                 <View style={styles.inputWrapper}>
                   <View style={styles.inputColumn}>
-                    <TextInput
-                      style={styles.inputStyle}
-                      value={values.passwordLength}
-                      onChangeText={handleChange('passwordLength')}
-                      placeholder="Ex. 8"
-                      keyboardType="numeric"
+                    <Text style={styles.heading}>Password Length</Text>
+                    {touched.passwordLength && errors.passwordLength && (
+                      <Text style={styles.errorText}>
+                        {errors.passwordLength}
+                      </Text>
+                    )}
+                  </View>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={values.passwordLength}
+                    onChangeText={handleChange('passwordLength')}
+                    placeholder="Ex. 8"
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include lowercase</Text>
+                  <View>
+                    <BouncyCheckbox
+                      isChecked={lowerCase}
+                      onPress={() => setLowerCase(!lowerCase)}
+                      fillColor="#291b87"
                     />
                   </View>
                 </View>
-                <View style={styles.inputWrapper}></View>
-                <View style={styles.inputWrapper}></View>
-                <View style={styles.inputWrapper}></View>
-                <View style={styles.inputWrapper}></View>
-
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Uppercase letter</Text>
+                  <View>
+                    <BouncyCheckbox
+                      isChecked={lowerCase}
+                      onPress={() => setLowerCase(!upperCase)}
+                      fillColor="#291b87"
+                    />
+                  </View>
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Numbers</Text>
+                  <View>
+                    <BouncyCheckbox
+                      isChecked={numbers}
+                      onPress={() => {
+                        setNumbers(!numbers);
+                      }}
+                      fillColor="#291b87"
+                    />
+                  </View>
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Symbols</Text>
+                  <View>
+                    <BouncyCheckbox
+                      isChecked={symbols}
+                      onPress={() => {
+                        setSymbols(!symbols);
+                      }}
+                      fillColor="#291b87"
+                    />
+                  </View>
+                </View>
                 <View style={styles.formActions}>
-                  <TouchableOpacity>
-                    <Text>Generate Password</Text>
+                  <TouchableOpacity
+                    disabled={!isValid}
+                    style={styles.primaryBtn}
+                    onPress={() => handleSubmit()}>
+                    <Text style={styles.primaryBtnTxt}>Generate Password</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text>Reset Password</Text>
+                  <TouchableOpacity
+                    style={styles.secondaryBtn}
+                    onPress={() => {
+                      handleReset();
+                      resetPassword();
+                    }}>
+                    <Text style={styles.secondaryBtnTxt}>Reset</Text>
                   </TouchableOpacity>
                 </View>
               </>
             )}
           </Formik>
         </View>
+        {isPassGenerated && (
+          <View style={[styles.card, styles.cardElevated]}>
+          <Text style={styles.subTitle}>Result:</Text>
+          <Text style={styles.description}>Long Press to copy</Text>
+          <Text selectable={true} style={styles.generatedPassword}>{password}</Text>
+        </View>
+        )}
       </SafeAreaView>
     </ScrollView>
   );
@@ -180,6 +241,7 @@ const styles = StyleSheet.create({
   },
   secondaryBtnTxt: {
     textAlign: 'center',
+    fontWeight: '700',
   },
   card: {
     padding: 12,
