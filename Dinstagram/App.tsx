@@ -13,14 +13,17 @@ import {
   View,
 } from 'react-native';
 
+import SplashScreen from './src/screens/SplashScreen';
+
+
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <View style={styles.container}> 
-    <Text>Emntry point</Text>
-  </View>
+      <SplashScreen/>
+    </View>
   );
 }
 
