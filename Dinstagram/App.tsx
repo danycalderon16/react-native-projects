@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import SplashScreen from './src/screens/SplashScreen';
+import InitialLaunchScreen from './src/screens/InitialLaunchScreen';
 
 
 
@@ -22,7 +23,7 @@ function App(): React.JSX.Element {
 
   return (
     <View style={styles.container}> 
-      <SplashScreen/>
+      <InitialLaunchScreen/>
     </View>
   );
 }
