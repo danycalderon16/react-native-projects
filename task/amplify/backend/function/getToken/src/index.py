@@ -14,6 +14,7 @@ def handler(event, context):
 
 
 def build_response(data, status_code):
+    print(data,status_code)
     return {
         'statusCode': status_code,
         'headers': {

@@ -1,6 +1,10 @@
 import {post} from 'aws-amplify/api';
 
-export const getToken = async () => {
+interface Token {
+  token: string;
+}
+
+export const getToken = async (): Promise<string | null> => {
   try {
     const res = post({
       apiName: 'auth',
@@ -14,7 +18,17 @@ export const getToken = async () => {
         },
       },
     });
-    const resonse = await (await res.response).body.json() as string;
-    return resonse;
-  } catch (error) {}
+    const response = await res;
+
+    const responseBody = (await (await response.response).body.json()) as {
+      token: any;
+      response: {token: string};
+    };
+
+    const token = responseBody.token;
+    return token;
+  } catch (error) {
+    console.error('Error obteniendo el token:', error);
+    return null;
+  }
 };
