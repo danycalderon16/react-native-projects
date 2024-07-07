@@ -16,7 +16,8 @@
         "getToken": {
           "deploymentBucketName": "amplify-task-dev-230634-deployment",
           "s3Key": "amplify-builds/getToken-585031447532706d6d51-build.zip"
-        }
+        },
+        "getBooks": {}
       },
       "api": {
         "auth": {}
